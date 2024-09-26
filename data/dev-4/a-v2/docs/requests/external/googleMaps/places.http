@@ -1,0 +1,16 @@
+### Find Place - Places API
+GET https://places-googleapis-proxy-xkh80emjtn.vercel.app/current/textsearch/json
+  ?query=restaurantes em Lisboa
+  &type=restaurant
+  &language=pt-BR
+
+### Text Search - Places API (New)
+POST https://places-googleapis-proxy-xkh80emjtn.vercel.app/new/places:searchText
+Content-Type: application/json
+X-Goog-FieldMask: places.displayName,places.formattedAddress,places.location,places.rating
+
+{
+  "textQuery" : "restaurantes em Lisboa",
+  "includedType": "restaurant",
+  "languageCode": "pt-BR"
+}

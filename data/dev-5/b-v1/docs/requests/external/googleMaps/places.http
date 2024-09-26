@@ -1,0 +1,14 @@
+### Query Autocomplete - Places API
+GET https://places-googleapis-proxy-xkh80emjtn.vercel.app/current/queryautocomplete/json
+  ?input=pizza em lis
+  &language=pt-BR
+
+### Autocomplete - Places API (New)
+POST https://places-googleapis-proxy-xkh80emjtn.vercel.app/new/places:autocomplete
+Content-Type: application/json
+
+{
+  "input" : "pizza em lis",
+  "includeQueryPredictions": true,
+  "languageCode": "pt-BR"
+}

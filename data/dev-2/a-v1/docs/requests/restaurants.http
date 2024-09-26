@@ -1,0 +1,5 @@
+@baseURL = http://localhost:3000
+
+### Search restaurants
+GET {{baseURL}}/places/restaurants
+  ?query=Campina Grande

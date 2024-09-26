@@ -1,0 +1,105 @@
+openapi: 3.1.0
+
+info:
+  title: Busca de Restaurantes
+  version: 1.0.0
+tags:
+  - name: Restaurantes
+
+paths:
+  /places/restaurants:
+    get:
+      summary: Buscar restaurantes
+      operationId: restaurants/search
+      tags:
+        - Restaurantes
+      parameters:
+        - name: query
+          description: O local para buscar restaurantes
+          schema:
+            type: string
+          in: query
+          required: true
+          example: Lisboa, Portugal
+      responses:
+        '200':
+          description: Restaurantes encontrados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Restaurant'
+        '400':
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '500':
+          description: Erro no servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+components:
+  schemas:
+    Restaurant:
+      type: object
+      required:
+        - id
+        - location
+      properties:
+        id:
+          type: string
+          description: O identificador do restaurante
+          example: ChIJzTzkzLAcdkgRbwmAyPCNQ9o
+        name:
+          type: string
+          description: O nome do restaurante
+          example: Lyle's
+        rating:
+          type: number
+          description: A avaliação do restaurante
+          example: 4.5
+        location:
+          type: object
+          description: A localização do restaurante
+          required:
+            - latitude
+            - longitude
+          properties:
+            latitude:
+              type: number
+              description: A latitude
+              example: 51.5237542
+            longitude:
+              type: number
+              description: A longitude
+              example: -0.0764767
+            formattedAddress:
+              type: string
+              description: O endereço formatado do restaurante
+              example:
+                Tea Building, 56 Shoreditch High St, London E1 6JJ, Reino Unido
+
+    ValidationError:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: A mensagem de erro
+          example: Validation error
+
+    InternalServerError:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: A mensagem de erro
+          example: Internal server error

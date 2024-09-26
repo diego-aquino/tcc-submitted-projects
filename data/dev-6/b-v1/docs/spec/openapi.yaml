@@ -1,0 +1,83 @@
+openapi: 3.1.0
+
+info:
+  title: Autocomplete de Locais
+  version: 1.0.0
+tags:
+  - name: Autocomplete
+
+paths:
+  /places/autocomplete:
+    get:
+      summary: Autocompletar texto de busca
+      operationId: autocomplete
+      tags:
+        - Autocomplete
+      parameters:
+        - name: query
+          description: O texto de busca parcial
+          schema:
+            type: string
+          in: query
+          required: true
+          example: pizza em l
+      responses:
+        '200':
+          description: Sugestões de textos de busca completos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AutocompleteSuggestion'
+        '400':
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '500':
+          description: Erro no servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+components:
+  schemas:
+    AutocompleteSuggestion:
+      type: object
+      required:
+        - text
+        - formattedText
+      properties:
+        text:
+          type: string
+          description: O texto de busca completo
+          example: pizza em Lisboa, Portugal
+        formattedText:
+          type: string
+          description:
+            O texto de busca formatado, cujas correspondências estarão em
+            negrito entre '**'
+          example: '**pizza** em **L**ondres, Reino Unido'
+
+    ValidationError:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: A mensagem de erro
+          example: Validation error
+
+    InternalServerError:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: A mensagem de erro
+          example: Internal server error
